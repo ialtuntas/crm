@@ -1,10 +1,14 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import Main from "./Router";
+import { BrowserRouter, Route } from "react-router-dom";
 class Index extends Component {
     render() {
         return (
-            <div>Merhaba</div>
-        )
+            <BrowserRouter>
+                <Route component={Main} />
+            </BrowserRouter>
+        );
     }
 }
-ReactDOM.render(<Index />, document.getElementById('index'));
+ReactDOM.render(<Index />, document.getElementById("index"));
