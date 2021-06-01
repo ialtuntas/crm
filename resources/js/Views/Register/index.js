@@ -1,12 +1,53 @@
 import { Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-const Register = () => {
-    const handleSubmit = () => {
-        alert("Tıklandı");
+const Index = () => {
+    const [errors, setErrors] = useState([]);
+    const [error, setError] = useState("");
+    const handleSubmit = (values) => {
+        axios
+            .post(`/api/auth/register`, { ...values })
+            .then((res) => {
+                console.log(res);
+                if (res.data.success) {
+                    const userData = {
+                        id: res.data.id,
+                        name: res.data.name,
+                        email: res.data.email,
+                        access_token: res.data.access_token,
+                    };
+                    const appState = {
+                        isLoggedIn: true,
+                        user: userData,
+                    };
+                    // props.AuthStore.saveToken(appState);
+                    // props.history.push("/");
+                    //location.reload();
+                    alert("Kayıt Tamamlandı");
+                } else {
+                    alert("Kayıt Yapamadınız");
+                }
+            })
+            .catch((error) => {
+                if (error.response) {
+                    let err = error.response.data;
+                    setErrors(err.errors);
+                    //alert(err.errors)
+                } else if (error.request) {
+                    let err = error.request;
+                    setError(err);
+                } else {
+                    setError(error.message);
+                }
+            });
     };
+    let arr = [];
+    Object.values(errors).forEach((value) => {
+        arr.push(value);
+    });
     return (
         <div className="lr-container">
             <main className="form-signin">
@@ -19,6 +60,26 @@ const Register = () => {
                         height="57"
                     />
                     <h1 className="h3 mb-3 fw-normal">Kayıt Ol</h1>
+
+                    {arr.length != 0 &&
+                        arr.map((item) => (
+                            <div
+                                key={item}
+                                className="alert alert-danger"
+                                role="alert"
+                            >
+                                {item}
+                            </div>
+                        ))}
+                    {error != "" && (
+                        <div
+                            key={item}
+                            className="alert alert-danger"
+                            role="alert"
+                        >
+                            {error}
+                        </div>
+                    )}
                     <Formik
                         initialValues={{
                             name: "",
@@ -136,9 +197,9 @@ const Register = () => {
                         )}
                     </Formik>
                     <Link to="/login">
-                        <button className="mt-1 w-100 btn btn-lg btn-outline-danger">
+                        <div className="mt-1 w-100 btn btn-lg btn-outline-danger">
                             Giriş Yap
-                        </button>
+                        </div>
                     </Link>
                     <p className="mt-5 mb-3 text-muted">&copy; BStock 2021</p>
                 </form>
@@ -147,4 +208,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default Index;
