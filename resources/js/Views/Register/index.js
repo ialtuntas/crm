@@ -34,7 +34,7 @@ const Register = (props) => {
                 }
             })
             .catch((error) => {
-                if (error.response) {
+                if (error.response.data.errors) {
                     let err = error.response.data;
                     setErrors(err.errors);
                     //alert(err.errors)
