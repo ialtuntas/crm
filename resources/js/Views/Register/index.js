@@ -188,7 +188,7 @@ const Register = (props) => {
                                     </label>
                                 </div>
                                 <button
-                                    disabled={!isValid || isSubmitting}
+                                    disabled={!isValid}
                                     onClick={handleSubmit}
                                     className="w-100 btn btn-lg btn-primary"
                                     type="button"
