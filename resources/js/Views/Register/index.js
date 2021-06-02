@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
-const Index = () => {
+import { inject, observer } from "mobx-react";
+// formlara id veya name değeri tanımlanmak zorunda touchedin duzgun çalışması için
+const Register = (props) => {
+    console.log(props);
     const [errors, setErrors] = useState([]);
     const [error, setError] = useState("");
     const handleSubmit = (values) => {
@@ -23,8 +25,8 @@ const Index = () => {
                         isLoggedIn: true,
                         user: userData,
                     };
-                    // props.AuthStore.saveToken(appState);
-                    // props.history.push("/");
+                    props.AuthStore.saveToken(appState);
+                    props.history.push("/");
                     //location.reload();
                     alert("Kayıt Tamamlandı");
                 } else {
@@ -208,4 +210,4 @@ const Index = () => {
     );
 };
 
-export default Index;
+export default inject("AuthStore")(observer(Register));
