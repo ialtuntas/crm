@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -8,6 +8,15 @@ import { inject, observer } from "mobx-react";
 const Login = (props) => {
     const [errors, setErrors] = useState([]);
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        if (props.AuthStore.appState != null) {
+            if (props.AuthStore.appState.isLoggedIn) {
+                return props.history.push("/");
+            }
+        }
+    });
+
     const handleSubmit = (values) => {
         axios
             .post(`/api/auth/login`, { ...values })
@@ -25,9 +34,9 @@ const Login = (props) => {
                         user: userData,
                     };
                     props.AuthStore.saveToken(appState);
-                    props.history.push("/");
-                    //location.reload();
-                    // alert("Giriş yaptınız");
+                    // props.history.push("/");
+                    window.location.reload();
+                    alert("Giriş yaptınız");
                 } else {
                     alert("Giriş Yapamadınız");
                 }

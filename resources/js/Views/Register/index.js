@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -9,6 +9,13 @@ const Register = (props) => {
     console.log(props);
     const [errors, setErrors] = useState([]);
     const [error, setError] = useState("");
+    useEffect(() => {
+        if (props.AuthStore.appState != null) {
+            if (props.AuthStore.appState.isLoggedIn) {
+                return props.history.push("/");
+            }
+        }
+    });
     const handleSubmit = (values) => {
         axios
             .post(`/api/auth/register`, { ...values })
