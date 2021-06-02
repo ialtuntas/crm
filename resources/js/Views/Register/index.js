@@ -126,8 +126,14 @@ const Register = (props) => {
                                         value={values.name}
                                         onChange={handleChange("name")}
                                     />
+
                                     {errors.name && touched.name && (
-                                        <p>{errors.name}</p>
+                                        <div
+                                            className="alert alert-danger mt-2 mb-2 p-1"
+                                            role="alert"
+                                        >
+                                            {errors.name}
+                                        </div>
                                     )}
                                     <label htmlFor="floatingInput">İsim</label>
                                 </div>
@@ -143,7 +149,12 @@ const Register = (props) => {
                                         onChange={handleChange("email")}
                                     />
                                     {errors.email && touched.email && (
-                                        <p>{errors.email}</p>
+                                        <div
+                                            className="alert alert-danger mt-2 mb-2 p-1"
+                                            role="alert"
+                                        >
+                                            {errors.email}
+                                        </div>
                                     )}
                                     <label htmlFor="floatingInput">
                                         Email adresi
@@ -160,7 +171,12 @@ const Register = (props) => {
                                         onChange={handleChange("password")}
                                     />
                                     {errors.password && touched.password && (
-                                        <p>{errors.password}</p>
+                                        <div
+                                            className="alert alert-danger mt-2 mb-2 p-1"
+                                            role="alert"
+                                        >
+                                            {errors.password}
+                                        </div>
                                     )}
                                     <label htmlFor="floatingInput">Şifre</label>
                                 </div>
@@ -180,7 +196,14 @@ const Register = (props) => {
                                     {errors.password_confirmation &&
                                         touched.password_confirmation && (
                                             <p>
-                                                {errors.password_confirmation}
+                                                <div
+                                                    className="alert alert-danger mb-2 p-1"
+                                                    role="alert"
+                                                >
+                                                    {
+                                                        errors.password_confirmation
+                                                    }
+                                                </div>
                                             </p>
                                         )}
                                     <label htmlFor="floatingPassword">
