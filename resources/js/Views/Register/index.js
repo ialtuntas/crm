@@ -195,16 +195,12 @@ const Register = (props) => {
                                     />
                                     {errors.password_confirmation &&
                                         touched.password_confirmation && (
-                                            <p>
-                                                <div
-                                                    className="alert alert-danger mb-2 p-1"
-                                                    role="alert"
-                                                >
-                                                    {
-                                                        errors.password_confirmation
-                                                    }
-                                                </div>
-                                            </p>
+                                            <div
+                                                className="alert alert-danger mb-2 p-1"
+                                                role="alert"
+                                            >
+                                                {errors.password_confirmation}
+                                            </div>
                                         )}
                                     <label htmlFor="floatingPassword">
                                         Şifre Tekrarı
