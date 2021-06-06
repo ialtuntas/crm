@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\product;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class indexController extends Controller
@@ -28,7 +29,12 @@ class indexController extends Controller
      */
     public function create()
     {
-        //
+        $user = request()->user();
+        $categories = Category::where('userId', $user->id)->get();
+        return response()->json([
+            'success' => true,
+            'categories' => $categories
+        ]);
     }
 
     /**
