@@ -6,9 +6,15 @@ import * as Yup from "yup";
 import { Container } from "react-bootstrap";
 import CustomInput from "../../Components/Form/Custominput";
 import Select from "react-select";
+import ImageUploader from "react-images-upload";
 const Create = (props) => {
     const handleSubmit = () => {};
     const [categories, setCategories] = useState([]);
+    const [pictures, setPictures] = useState([]);
+
+    const onDrop = (picture) => {
+        setPictures([...pictures, picture]);
+    };
     useEffect(() => {
         axios
             .get(
@@ -80,6 +86,24 @@ const Create = (props) => {
                         <div>
                             <div className="row">
                                 <div className="col-md-12">
+                                    <ImageUploader
+                                        withIcon={true}
+                                        onChange={onDrop}
+                                        imgExtension={[
+                                            ".jpeg",
+                                            ".gif",
+                                            ".png",
+                                            ".gif",
+                                        ]}
+                                        withPreview={true}
+                                        maxFileSize={5242880}
+                                        buttonText="Resim Seçiniz"
+                                        label="Max dosya boyutu: 5mb, kabul edilen dosya türleri: jpg, gif, png"
+                                    />
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-12">
                                     <div className="form-group">
                                         <Select
                                             onChange={(e) =>
@@ -103,7 +127,7 @@ const Create = (props) => {
                                     </div>
                                     {errors.categoryId &&
                                         touched.categoryId && (
-                                            <p className="form-error">
+                                            <p className="alert alert-danger mt-2 mb-2 p-2">
                                                 {errors.categoryId}
                                             </p>
                                         )}
@@ -118,7 +142,7 @@ const Create = (props) => {
                                         handleChange={handleChange("name")}
                                     />
                                     {errors.name && touched.name && (
-                                        <p className="form-error">
+                                        <p className="alert alert-danger mt-2 mb-2 p-2">
                                             {errors.name}
                                         </p>
                                     )}
@@ -131,7 +155,7 @@ const Create = (props) => {
                                         handleBlur={handleBlur("modelCode")}
                                     />
                                     {errors.modelCode && touched.modelCode && (
-                                        <p className="form-error">
+                                        <p className="alert alert-danger mt-2 mb-2 p-2">
                                             {errors.modelCode}
                                         </p>
                                     )}
@@ -146,7 +170,7 @@ const Create = (props) => {
                                         handleBlur={handleBlur("barcode")}
                                     />
                                     {errors.barcode && touched.barcode && (
-                                        <p className="form-error">
+                                        <p className="alert alert-danger mt-2 mb-2 p-2">
                                             {errors.barcode}
                                         </p>
                                     )}
@@ -159,7 +183,7 @@ const Create = (props) => {
                                         handleBlur={handleBlur("brand")}
                                     />
                                     {errors.brand && touched.brand && (
-                                        <p className="form-error">
+                                        <p className="alert alert-danger mt-2 mb-2 p-2">
                                             {errors.brand}
                                         </p>
                                     )}
@@ -205,7 +229,7 @@ const Create = (props) => {
                                     />
                                     {errors.buyingPrice &&
                                         touched.buyingPrice && (
-                                            <p className="form-error">
+                                            <p className="alert alert-danger mt-2 mb-2 p-2">
                                                 {errors.buyingPrice}
                                             </p>
                                         )}
@@ -222,7 +246,7 @@ const Create = (props) => {
                                     />
                                     {errors.sellingPrice &&
                                         touched.sellingPrice && (
-                                            <p className="form-error">
+                                            <p className="alert alert-danger mt-2 mb-2 p-2">
                                                 {errors.sellingPrice}
                                             </p>
                                         )}
@@ -315,7 +339,7 @@ const Create = (props) => {
                             <button
                                 disabled={!isValid || isSubmitting}
                                 onClick={handleSubmit}
-                                className="btn btn-lg btn-primary btn-block"
+                                className="mt-3 btn btn-lg btn-primary btn-block"
                                 type="button"
                             >
                                 Ürünü Ekle
