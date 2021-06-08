@@ -7,10 +7,28 @@ import { Container } from "react-bootstrap";
 import CustomInput from "../../Components/Form/Custominput";
 import Select from "react-select";
 import ImageUploader from "react-images-upload";
+import CKEditor from "ckeditor4-react";
+
 const Create = (props) => {
     const handleSubmit = () => {};
     const [categories, setCategories] = useState([]);
     const [pictures, setPictures] = useState([]);
+    const [property, setProperty] = useState([]);
+    const newProperty = () => {
+        setProperty([...property, { property: "", value: "" }]);
+    };
+
+    const removeProperty = (index) => {
+        const OldProperty = property;
+        OldProperty.splice(index, 1); //indexden sonra 1 tane sil
+        setProperty([...OldProperty]);
+    };
+    const changeTextInput = (event, index) => {
+        console.log(property);
+        console.log(event.target.value, index);
+        property[index][event.target.name] = event.target.value; //property içersindeki property ve value e.target.name
+        setProperty([...property]);
+    };
 
     const onDrop = (picture) => {
         setPictures([...pictures, picture]);
@@ -252,22 +270,7 @@ const Create = (props) => {
                                         )}
                                 </div>
                             </div>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <CustomInput
-                                        title="Açıklama *"
-                                        value={values.text}
-                                        handleChange={handleChange("text")}
-                                        handleBlur={handleBlur("text")}
-                                    />
-                                    {errors.text && touched.text && (
-                                        <p className="form-error">
-                                            {errors.text}
-                                        </p>
-                                    )}
-                                </div>
-                            </div>
-                            {/* <div className="row">
+                            <div className="row mt-2">
                                 <div className="col-md-12">
                                     <CKEditor
                                         data={values.text}
@@ -276,9 +279,15 @@ const Create = (props) => {
                                             setFieldValue("text", data);
                                         }}
                                     />
+                                    {errors.text && touched.text && (
+                                        <p className="form-error">
+                                            {errors.text}
+                                        </p>
+                                    )}
                                 </div>
-                            </div> */}
-                            {/* <div className="row mb-3 mt-3">
+                            </div>
+
+                            <div className="row mb-3 mt-3">
                                 <div className="col-md-12">
                                     <button
                                         type="button"
@@ -290,8 +299,8 @@ const Create = (props) => {
                                 </div>
                             </div>
                             {property.map((item, index) => (
-                                <div className="row mb-1">
-                                    <div className="col-md-5">
+                                <div key={index} className="row mb-1">
+                                    <div className="col-5">
                                         <label>Özellik adı:</label>
                                         <input
                                             type="text"
@@ -303,7 +312,7 @@ const Create = (props) => {
                                             value={item.property}
                                         />
                                     </div>
-                                    <div className="col-md-5">
+                                    <div className="col-5">
                                         <label>Özellik Değeri:</label>
                                         <input
                                             type="text"
@@ -321,7 +330,7 @@ const Create = (props) => {
                                             justifyContent: "center",
                                             alignItems: "flex-end",
                                         }}
-                                        className="col-md-1"
+                                        className="col-1"
                                     >
                                         <button
                                             onClick={() =>
@@ -334,7 +343,7 @@ const Create = (props) => {
                                         </button>
                                     </div>
                                 </div>
-                            ))} */}
+                            ))}
 
                             <button
                                 disabled={!isValid || isSubmitting}
