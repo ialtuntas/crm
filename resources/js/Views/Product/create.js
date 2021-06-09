@@ -8,9 +8,57 @@ import CustomInput from "../../Components/Form/Custominput";
 import Select from "react-select";
 import ImageUploader from "react-images-upload";
 import CKEditor from "ckeditor4-react";
+import swal from "sweetalert";
 
 const Create = (props) => {
-    const handleSubmit = () => {};
+    const handleSubmit = (values, { resetForm, setSubmitting }) => {
+        const data = new FormData();
+
+        pictures.forEach((image_file) => {
+            data.append("file[]", image_file);
+        });
+
+        data.append("categoryId", values.categoryId);
+        data.append("name", values.name);
+        data.append("modelCode", values.modelCode);
+        data.append("barcode", values.barcode);
+        data.append("brand", values.brand);
+        data.append("tax", values.tax);
+        data.append("stock", values.stock);
+        data.append("sellingPrice", values.sellingPrice);
+        data.append("buyingPrice", values.buyingPrice);
+        data.append("text", values.text);
+        data.append("property", JSON.stringify(property));
+
+        const config = {
+            headers: {
+                Accept: "application/json",
+                "content-type": "multipart/form-data",
+                Authorization:
+                    "Bearer " + props.AuthStore.appState.user.access_token,
+            },
+        };
+        axios
+            .post("/api/product", data, config)
+            .then((res) => {
+                console.log(res);
+
+                if (res.data.success) {
+                    swal("ÜRün Eklendi");
+                    resetForm({});
+                    setPictures([]);
+                    setProperty([]);
+                    setSubmitting(false);
+                } else {
+                    swal(res.data.message);
+                    setSubmitting(true);
+                }
+            })
+            .catch((e) => {
+                setSubmitting(true);
+                console.log(e);
+            });
+    };
     const [categories, setCategories] = useState([]);
     const [pictures, setPictures] = useState([]);
     const [property, setProperty] = useState([]);
@@ -31,6 +79,7 @@ const Create = (props) => {
     };
 
     const onDrop = (picture) => {
+        console.log(picture);
         setPictures([...pictures, picture]);
     };
     useEffect(() => {
@@ -51,7 +100,7 @@ const Create = (props) => {
                 console.log(res);
             })
             .catch((e) => console.log(e));
-    }, []);
+    }, [pictures]);
 
     return (
         <Layout>
@@ -112,6 +161,7 @@ const Create = (props) => {
                                             ".gif",
                                             ".png",
                                             ".gif",
+                                            ".jpg",
                                         ]}
                                         withPreview={true}
                                         maxFileSize={5242880}
