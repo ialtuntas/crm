@@ -5,6 +5,10 @@ namespace App\Http\Controllers\api\product;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\ProductImage;
+use App\Models\ProductProperty;
+// use App\Helper\fileUpload;
 
 class indexController extends Controller
 {
@@ -45,7 +49,47 @@ class indexController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = request()->user();
+        $all = $request->all();
+        // dd($all);
+        return response()->json([
+            'success' => true,
+            'message' => $all
+        ]);
+
+        // $file = (isset($all['file'])) ? $all['file'] : [];
+        // $properties = (isset($all['property'])) ? json_decode($all['property'], true) : [];
+        // unset($all['file']);
+        // unset($all['property']);
+        // $all['userId'] = $user->id;
+        // $create = Product::create($all);
+        // if ($create) {
+        //     foreach ($file as $item) {
+
+        //         $upload = fileUpload::newUpload(rand(1, 9000), "products", $item, 0);
+
+        //         ProductImage::create([
+        //             'productId' => $create->id,
+        //             'path' => $upload
+        //         ]);
+        //     }
+        //     foreach ($properties as $property) {
+        //         ProductProperty::create([
+        //             'productId' => $create->id,
+        //             'property' => $property['property'],
+        //             'value' => $property['value']
+        //         ]);
+        //     }
+        //     return response()->json([
+        //         'success' => true,
+        //         'message' => 'Ürün Başarı ile Eklendi'
+        //     ]);
+        // } else {
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Ürün Eklenemedi'
+        //     ]);
+        // }
     }
 
     /**
