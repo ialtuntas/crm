@@ -15,7 +15,6 @@ export default function Custominput({
                 type={type}
                 className="form-control"
                 placeholder={placeholder}
-                name={type}
                 autoComplete="off"
                 value={value}
                 onChange={handleChange}
